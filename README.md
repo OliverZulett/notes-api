@@ -11,11 +11,22 @@ notes api its the API built in Laravel that handles all the request and backend 
 
 execute the next command in order
 
+1. Install composer dependencies:
+
 ``` bash
-./vendor/bin/sail up
+docker run --rm -v $(pwd):/app composer install
+```
+2. Start project
+``` bash
+./vendor/bin/sail up 
+```
+3. migrate database
+``` bash
 ./vendor/bin/sail artisan migrate
+```
+4. seed database
+``` bash
 ./vendor/bin/sail artisan db:seed 
- 
 ```
 ## commands
 
