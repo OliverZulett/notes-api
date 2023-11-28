@@ -30,20 +30,40 @@ docker run --rm -v $(pwd):/app composer install
 ```
 ## commands
 
-1. to create controller & model
+1. to create migration
+
+``` bash
+./vendor/bin/sail artisan make:migration Category
+ 
+```
+
+2. to create factory
+
+``` bash
+./vendor/bin/sail artisan make NoteFactory
+ 
+```
+
+3. to create seeder
+
+``` bash
+./vendor/bin/sail artisan make:seeder UsersSeeder
+ 
+```
+4. to create controller & model
 
 ``` bash
 ./vendor/bin/sail artisan make:controller api/UserController --api --model=User
  
 ```
-2. to create resource
+5. to create resource
 
 ``` bash
 ./vendor/bin/sail artisan make:resource UserResource  
  
 ```
 
-2. to create request
+6. to create request
 
 ``` bash
 ./vendor/bin/sail artisan make:request StoreUserRequest

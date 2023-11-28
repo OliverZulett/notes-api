@@ -26,7 +26,3 @@ Route::prefix('users')
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-});

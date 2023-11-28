@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Ramsey\Uuid\Uuid;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +24,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -30,7 +36,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -39,7 +44,20 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = Uuid::uuid4()->toString();
+        });
+
+        
+        // static::deleting(function ($user) {
+        //     $user->notes()->detach();
+        // });
+    }
 }
