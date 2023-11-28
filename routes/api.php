@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\NoteController;
 use App\Http\Controllers\api\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::apiResource('users', UserController::class);
-
 Route::prefix('users')
     ->name('users.')
     ->group(function() {
@@ -25,4 +24,24 @@ Route::prefix('users')
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+Route::prefix('categories')
+    ->name('categories.')
+    ->group(function() {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+Route::prefix('notes')
+    ->name('notes.')
+    ->group(function() {
+        Route::get('/', [NoteController::class, 'index'])->name('index');
+        Route::post('/', [NoteController::class, 'store'])->name('store');
+        Route::get('/{note}', [NoteController::class, 'show'])->name('show');
+        Route::put('/{note}', [NoteController::class, 'update'])->name('update');
+        Route::delete('/{note}', [NoteController::class, 'destroy'])->name('destroy');
     });

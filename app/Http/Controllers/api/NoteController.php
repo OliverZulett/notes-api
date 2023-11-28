@@ -27,6 +27,7 @@ class NoteController extends Controller
         $note = Note::create([
             'title' => $request->title,
             'content' => $request->content,
+            'user_id' => $request->user_id,
         ]);
 
         return new NoteResource($note);

@@ -28,8 +28,8 @@ class Note extends Model
         $model->id = Uuid::uuid4()->toString();
       });
   
-      static::deleting(function ($post) {
-        $post->categories()->detach();
+      static::deleting(function ($note) {
+        $note->categories()->detach();
       });
     }
   

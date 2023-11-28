@@ -24,6 +24,7 @@ class StoreNoteRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['string', 'max:255'],
+            'user_id' => ['required']
         ];
     }
 }
