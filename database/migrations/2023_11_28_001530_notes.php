@@ -17,13 +17,13 @@ return new class extends Migration
             $table->text('content');
             $table->timestamps();
             $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
         Schema::create('notes_categories', function (Blueprint $table) {
             $table->uuid('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->uuid('note_id');
-            $table->foreign('note_id')->references('id')->on('notes');
+            $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
             $table->timestamps();
         });
     }

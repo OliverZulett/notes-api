@@ -6,60 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(20));
+        return UserResource::collection($this->userService->getAllUsers());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $user)
     {
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return new UserResource($user);
+        return new UserResource($this->userService->createUser($user));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($userId)
     {
-        return new UserResource($user);
+        return new UserResource($this->userService->getUserById($userId));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $user, string $userId)
     {
-        $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return new UserResource($user);
+        return new UserResource($this->userService->updateUser($userId, $user));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $userId)
     {
-        return $user->delete();
+        return $this->userService->deleteUser($userId);
     }
 }

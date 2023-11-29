@@ -56,8 +56,8 @@ class User extends Authenticatable
         });
 
         
-        // static::deleting(function ($user) {
-        //     $user->notes()->detach();
-        // });
+        static::deleting(function ($user) {
+            $user->notes()->detach();
+        });
     }
 }
