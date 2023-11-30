@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Prompts\Output\ConsoleOutput;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -67,7 +68,7 @@ class UserService
     try {
       $this->userRepository->delete($userId);
     } catch (QueryException $e) {
-      throw new NotFoundHttpException($e->getMessage());
+      throw new InternalErrorException($e->getMessage());
     } catch (Exception $e) {
       throw new NotFoundHttpException($e->getMessage());
     }
