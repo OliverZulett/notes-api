@@ -21,8 +21,9 @@ class NoteFactory extends Factory
     {
         $users = User::all();
         return [
-            'title' => fake()->words(10, true),
-            'content' => fake()->words(rand(200, 800), true),
+            'id' => $this->faker->uuid(),
+            'title' => $this->faker->words(rand(2, 10), true),
+            'content' => $this->faker->words(rand(20, 100), true),
             'user_id' => $users[rand(0, count($users) - 1)],
         ];
     }

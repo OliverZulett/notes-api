@@ -55,9 +55,13 @@ class User extends Authenticatable
             $model->id = Uuid::uuid4()->toString();
         });
 
-        
-        // static::deleting(function ($user) {
-        //     $user->notes()->detach();
-        // });
+        static::deleting(function ($user) {
+            $user->notes()->delete();
+        });
+    }
+    
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'user_id');
     }
 }

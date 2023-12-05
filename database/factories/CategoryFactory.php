@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
         return [
             'id' => $this->faker->uuid(),
             'name' => $this->faker->unique()->word(),
-            'description' => $this->faker->words(20, true),
+            'description' => $this->faker->words(rand(2, 20), true),
         ];
     }
 }

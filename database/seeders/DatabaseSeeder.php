@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\NoteCategorySeeder as SeedersNoteCategorySeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
