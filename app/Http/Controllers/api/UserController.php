@@ -36,7 +36,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($userId)
+    public function show(string $userId)
     {
         return new UserResource($this->userService->getUserById($userId));
     }

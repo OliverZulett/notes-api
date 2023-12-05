@@ -6,59 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Http\Resources\NoteResource;
-use App\Models\Note;
-use Illuminate\Http\Request;
+use App\Services\NoteService;
 
 class NoteController extends Controller
 {
+    protected $noteService;
+
+    public function __construct(NoteService $noteService)
+    {
+        $this->noteService = $noteService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return NoteResource::collection(Note::paginate(20));
+        return NoteResource::collection($this->noteService->getAllNotes());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNoteRequest $request)
+    public function store(StoreNoteRequest $note)
     {
-        $note = Note::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'user_id' => $request->user_id,
-        ]);
-
-        return new NoteResource($note);
+        return new NoteResource($this->noteService->createNote($note));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Note $note)
+    public function show(string $noteId)
     {
-        return new NoteResource($note);
+        return new NoteResource($this->noteService->getNoteById($noteId));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNoteRequest $request, Note $note)
+    public function update(UpdateNoteRequest $note, string $noteId)
     {
-        $note->update([
-            'title' => $request->title,
-            'content' => $request->content
-        ]);
-
-        return new NoteResource($note);
+        return new NoteResource($this->noteService->updateNote($noteId, $note));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Note $note)
+    public function destroy(string $noteId)
     {
-        return $note->delete();
+        return $this->noteService->deleteNote($noteId);
     }
 }

@@ -6,12 +6,9 @@ use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Prompts\Output\ConsoleOutput;
-use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
 class UserService
 {
