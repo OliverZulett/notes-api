@@ -20,8 +20,17 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')
     ->name('auth.')
     ->group(function() {
+        Route::post('/login', [AuthController::class, 'login'])->name('login');
         Route::post('/register', [AuthController::class, 'register'])->name('register');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('register');
+        Route::post('/refresh', [AuthController::class, 'refresh'])->name('register');
     });
+
+// Route::prefix('auth')
+//     ->name('auth.')
+//     ->group(function() {
+//         Route::post('/register', [AuthController::class, 'register'])->name('register');
+//     });
 
 Route::prefix('users')
     ->name('users.')
