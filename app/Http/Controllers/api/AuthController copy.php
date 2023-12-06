@@ -5,21 +5,17 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
-use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-  private $userService;
-  private $authService;
+  protected $userService;
 
-  public function __construct(
-    UserService $userService,
-    AuthService $authService
-  ) {
+  public function __construct(UserService $userService)
+  {
     $this->userService = $userService;
-    $this->authService = $authService;
     $this->middleware('auth:api', ['except' => ['login', 'register']]);
   }
 
@@ -31,10 +27,21 @@ class AuthController extends Controller
     ]);
     $credentials = $request->only('email', 'password');
 
+    $token = Auth::guard('api')->attempt($credentials);
+    if (!$token) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Unauthorized',
+      ], 401);
+    }
+
+    $user = Auth::guard('api')->user();
     return response()->json([
       'status' => 'success',
-      'data' => [
-        'token' => $this->authService->login($credentials)
+      'user' => $user,
+      'authorization' => [
+        'token' => $token,
+        'type' => 'bearer',
       ]
     ]);
   }
@@ -46,11 +53,22 @@ class AuthController extends Controller
 
   public function logout()
   {
-    return $this->authService->logout();
+    Auth::guard('api')->logout();
+    return response()->json([
+      'status' => 'success',
+      'message' => 'Successfully logged out',
+    ]);
   }
 
   public function refresh()
   {
-    return $this->authService->refresh();
+    return response()->json([
+      'status' => 'success',
+      'user' => Auth::guard('api')->user(),
+      'authorization' => [
+        'token' => Auth::refresh(),
+        'type' => 'bearer',
+      ]
+    ]);
   }
 }
