@@ -23,6 +23,11 @@ class NoteService
     return $this->noteRepository->getAll();
   }
 
+  public function getAllNotesByUserId($userId)
+  {
+    return $this->noteRepository->getByUserId($userId);
+  }
+
   public function createNote($note)
   {
     try {

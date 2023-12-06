@@ -26,6 +26,14 @@ class NoteController extends Controller
     }
 
     /**
+     * Display a listing of the resource by user id.
+     */
+    public function getByUserId(string $userId)
+    {
+        return NoteResource::collection($this->noteService->getAllNotesByUserId($userId));
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreNoteRequest $note)

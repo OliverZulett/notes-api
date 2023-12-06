@@ -40,6 +40,7 @@ Route::prefix('notes')
     ->name('notes.')
     ->group(function() {
         Route::get('/', [NoteController::class, 'index'])->name('index');
+        Route::get('/user/{user}', [NoteController::class, 'getByUserId'])->name('getByUserId');
         Route::post('/', [NoteController::class, 'store'])->name('store');
         Route::get('/{note}', [NoteController::class, 'show'])->name('show');
         Route::put('/{note}', [NoteController::class, 'update'])->name('update');

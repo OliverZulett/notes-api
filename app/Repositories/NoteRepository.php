@@ -21,6 +21,11 @@ class NoteRepository
     return Note::findOrFail($noteId);
   }
 
+  public function getByUserId($userId)
+    {
+        return Note::where('user_id', $userId)->get();
+    }
+
   public function update($noteId, $noteData)
   {
     $note = $this->getById($noteId);
