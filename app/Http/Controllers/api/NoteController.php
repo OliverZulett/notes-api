@@ -15,6 +15,8 @@ class NoteController extends Controller
     public function __construct(NoteService $noteService)
     {
         $this->noteService = $noteService;
+        
+        $this->middleware('auth:api');
     }
 
     /**

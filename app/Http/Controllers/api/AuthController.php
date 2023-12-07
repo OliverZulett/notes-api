@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\TokenResource;
 use App\Services\AuthService;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -23,25 +23,17 @@ class AuthController extends Controller
     $this->middleware('auth:api', ['except' => ['login', 'register']]);
   }
 
-  public function login(Request $request)
+  public function login(AuthUserRequest $request)
   {
-    $request->validate([
-      'email' => 'required|string|email',
-      'password' => 'required|string',
-    ]);
     $credentials = $request->only('email', 'password');
-
-    return response()->json([
-      'status' => 'success',
-      'data' => [
-        'token' => $this->authService->login($credentials)
-      ]
-    ]);
+    return new TokenResource($this->authService->login($credentials));
   }
 
   public function register(StoreUserRequest $userCredentials)
   {
-    return new UserResource($this->userService->createUser($userCredentials));
+    $this->userService->createUser($userCredentials);
+    $credentials = $userCredentials->only('email', 'password');
+    return new TokenResource($this->authService->login($credentials));
   }
 
   public function logout()
