@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->timestamps();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
