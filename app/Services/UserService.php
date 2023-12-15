@@ -46,14 +46,14 @@ class UserService
     }
   }
 
-  public function updateUser($userId, $user)
+  public function updateUser($userId, $newUser)
   {
     try {
-      $this->getUserById($userId);
+      $user = $this->getUserById($userId);
       return $this->userRepository->update($userId, [
-        'username' => $user->username,
-        'email' => $user->email,
-        'password' => Hash::make($user->password),
+        'username' => $newUser->username ? $newUser->username : $user->username,
+        'email' => $newUser->email ? $newUser->email : $user->email,
+        'password' => $newUser->password ? Hash::make($newUser->password) : $user->password,
       ]);
     } catch (Exception $e) {
       throw new BadRequestException($e->getMessage());

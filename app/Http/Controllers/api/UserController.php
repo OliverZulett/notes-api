@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PatchUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
@@ -47,6 +48,14 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $user, string $userId)
+    {
+        return new UserResource($this->userService->updateUser($userId, $user));
+    }
+
+    /**
+     * Patch the specified resource in storage.
+     */
+    public function patch(PatchUserRequest $user, string $userId)
     {
         return new UserResource($this->userService->updateUser($userId, $user));
     }

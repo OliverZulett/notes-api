@@ -26,12 +26,6 @@ Route::prefix('auth')
         Route::post('/refresh', [AuthController::class, 'refresh'])->name('register');
     });
 
-// Route::prefix('auth')
-//     ->name('auth.')
-//     ->group(function() {
-//         Route::post('/register', [AuthController::class, 'register'])->name('register');
-//     });
-
 Route::prefix('users')
     ->name('users.')
     ->group(function() {
@@ -39,6 +33,7 @@ Route::prefix('users')
         Route::post('/', [UserController::class, 'store'])->name('store');
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::patch('/{user}', [UserController::class, 'patch'])->name('patch');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 
