@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PatchUserRequest extends FormRequest
 {
@@ -21,9 +22,18 @@ class PatchUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('user');
+
         return [
-            'username' => ['string', 'max:255'],
-            'email' => ['string', 'max:255', 'email'],
+            'username' => [
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'email' => [
+                'string', 'max:255', 'email',
+                Rule::unique('users')->ignore($userId),
+            ],
             'password' => ['string', 'min:8', 'confirmed']
         ];
     }
